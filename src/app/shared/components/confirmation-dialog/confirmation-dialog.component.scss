@@ -1,0 +1,46 @@
+@use '../../../../styles/abstracts/variables' as *;
+@use '../../../../styles/abstracts/mixins' as *;
+
+h2[mat-dialog-title] {
+  color: var(--color-primary);
+  font-size: var(--font-size-large);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+mat-dialog-content {
+  p {
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    line-height: 1.5;
+  }
+}
+
+mat-dialog-actions {
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  button {
+    @include button-style(var(--color-primary), white);
+    &.mat-warn { 
+      background-color: var(--color-error);
+      &:hover {
+        background-color: var(--color-error-dark);
+      }
+    }
+    &.mat-button {
+      background-color: transparent;
+      color: var(--color-text-secondary);
+      box-shadow: none;
+      &:hover {
+        background-color: var(--color-background-table-hover);
+        color: var(--color-text-primary);
+      }
+    }
+  }
+}

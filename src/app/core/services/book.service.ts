@@ -42,4 +42,8 @@ export class BookService {
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.apiUrl}/categories`);
   }
+
+  deleteBook(bookId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/books/${bookId}`);
+  }
 }

@@ -2,10 +2,10 @@
   <app-book-filter [categories]="bookStore.categories()" [initialFilter]="bookStore.activeFilter()"
     (applyFilter)="onApplyBookFilter($event)" (resetFilter)="onResetBookFilter()"></app-book-filter>
 
-  @if (bookStore.isLoading()) {
+  @if (bookStore.isLoading() || bookStore.isDeleting()) {
   <div class="loading-spinner">
     <mat-spinner></mat-spinner>
-    <p>Cargando libros...</p>
+    <p>{{ bookStore.isDeleting() ? 'Eliminando libro...' : 'Cargando libros...' }}</p>
   </div>
   }
 
@@ -17,7 +17,7 @@
   </div>
   }
 
-  @if (!bookStore.isLoading() && bookStore.books().length > 0) {
+  @if (!bookStore.isLoading() && !bookStore.isDeleting() && bookStore.books().length > 0) {
   <div class="table-responsive">
     <table class="books-table">
       <thead>
@@ -34,7 +34,7 @@
         <tr>
           <td data-label="#">{{ getBookIndex(i) }}</td>
           <td data-label="Título">{{ book.title }}</td>
-          <td data-label="Precio">{{ book.price | currency:'GBP':'symbol':'1.2-2' }}</td>
+          <td data-label="Precio">{{ book.price | currency:'GBP':'symbol':'1.2-2' }}</td> <!-- Usando CurrencyPipe -->
           <td data-label="Disponible">
             <span [class.in-stock]="book.stock" [class.out-of-stock]="!book.stock">
               {{ book.stock ? 'Sí' : 'No' }}
@@ -43,6 +43,9 @@
           <td data-label="Acciones">
             <button mat-icon-button color="primary" (click)="openBookDetails(book)" aria-label="Ver detalles del libro">
               <mat-icon>info</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="confirmAndDeleteBook(book)" aria-label="Eliminar libro">
+              <mat-icon>delete</mat-icon>
             </button>
           </td>
         </tr>
@@ -55,7 +58,8 @@
     [itemsPerPage]="bookStore.limitPerPage()" [totalItems]="bookStore.totalBooksCount()"
     (pageChange)="onPageChange($event)"></app-pagination>
 
-  } @else if (!bookStore.isLoading() && !bookStore.error() && bookStore.books().length === 0) {
+  } @else if (!bookStore.isLoading() && !bookStore.isDeleting() && !bookStore.error() && bookStore.books().length === 0)
+  {
   <div class="no-data-message">
     <p>No se encontraron libros que coincidan con los filtros.</p>
     <button mat-raised-button color="primary" (click)="bookStore.resetFilter()">Cargar Todos los Libros</button>
