@@ -42,11 +42,8 @@
         &:hover {
           background-color: var(--color-background-table-hover);
         }
-
-        // --- ¡AQUÍ ESTÁ EL CAMBIO CLAVE! ---
-        // Asegúrate de incluir ambas clases para mayor compatibilidad
         &.mat-primary,
-        &.mat-mdc-button-primary { // <-- Clase para versiones más recientes de Material
+        &.mat-mdc-button-primary {
           background-color: var(--color-primary);
           color: white;
           font-weight: bold;

@@ -34,7 +34,7 @@
         <tr>
           <td data-label="#">{{ getBookIndex(i) }}</td>
           <td data-label="Título">{{ book.title }}</td>
-          <td data-label="Precio">${{ book.price | number: '1.2-2' }}</td>
+          <td data-label="Precio">{{ book.price | currency:'GBP':'symbol':'1.2-2' }}</td>
           <td data-label="Disponible">
             <span [class.in-stock]="book.stock" [class.out-of-stock]="!book.stock">
               {{ book.stock ? 'Sí' : 'No' }}

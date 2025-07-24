@@ -1,10 +1,8 @@
-/* src/app/features/home/home.component.scss */
-@import '../../../styles/abstracts/mixins';
-@import '../../../styles/abstracts/variables';
+@use '../../../styles/abstracts/mixins' as *;
+@use '../../../styles/abstracts/variables' as *;
 
 .home-container {
   padding: 20px;
-
 
   h1 {
     color: var(--color-primary);
@@ -36,20 +34,22 @@
   }
 
   .table-responsive {
-    overflow-x: auto; // Hace la tabla responsiva
+    overflow-x: auto;
   }
 
   .books-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0 10px;
     margin-top: 20px;
 
     th,
     td {
-      border: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
       padding: 12px 15px;
       text-align: left;
-      vertical-align: middle; // Alineación vertical
+      vertical-align: middle;
+      background-color: var(--color-background-light);
     }
 
     th {
@@ -58,14 +58,20 @@
       font-weight: bold;
       text-transform: uppercase;
       font-size: var(--font-size-small);
+      border-bottom: 2px solid var(--color-primary-dark);
     }
 
-    tbody tr:nth-child(even) {
-      background-color: var(--color-background-table-even);
-    }
+    tbody tr {
+      background-color: var(--color-background-light);
+      border-radius: var(--border-radius-small);
+      overflow: hidden;
+      box-shadow: var(--shadow-extra-small);
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
-    tbody tr:hover {
-      background-color: var(--color-background-table-hover);
+      &:hover {
+        box-shadow: var(--shadow-small);
+        transform: translateY(-2px);
+      }
     }
 
     td {
@@ -83,7 +89,7 @@
       }
 
       button {
-        @include button-reset(); // Mixin para resetear estilos de botón
+        @include button-reset();
         color: var(--color-primary);
         transition: color 0.2s ease-in-out;
 
@@ -93,29 +99,41 @@
       }
     }
 
-    // Estilos específicos para la columna #
-    th:first-child, td:first-child {
+    th:first-child,
+    td:first-child {
       text-align: center;
+      
+      @include breakpoint-up(md) {
+        border-top-left-radius: var(--border-radius-small);
+      }
       @include breakpoint-down(md) {
-        text-align: right; // Alineado a la derecha en móviles
+        background-color: var(--color-primary);
+      color: white;
+        text-align: right;
       }
     }
-
+    th:last-child,
+    td:last-child {
+      @include breakpoint-up(md) {
+        border-top-right-radius: var(--border-radius-small);
+      }
+    }
 
     @include breakpoint-down(md) {
       font-size: var(--font-size-small);
 
-      th, td {
+      th,
+      td {
         padding: 8px 10px;
       }
 
       thead {
-        display: none; // Oculta los encabezados en móviles
+        display: none;
       }
 
       tr {
-        display: block; // Cada fila como un bloque
-        margin-bottom: 10px;
+        display: block;
+        margin-bottom: 15px;
         border: 1px solid var(--color-border);
         border-radius: 5px;
         background-color: var(--color-background-light);
@@ -123,13 +141,18 @@
       }
 
       td {
-        display: block; // Cada celda como un bloque
+        display: block;
         text-align: right;
         padding-left: 50%;
         position: relative;
+        border-bottom: 1px solid var(--color-border);
+        &:last-child {
+          border-bottom: none;
+        }
+
 
         &:before {
-          content: attr(data-label); // Muestra el encabezado como label
+          content: attr(data-label);
           position: absolute;
           left: 10px;
           width: 45%;
@@ -139,12 +162,6 @@
           font-weight: bold;
           color: var(--color-primary);
         }
-
-        &:nth-of-type(1):before { content: "#"; }
-        &:nth-of-type(2):before { content: "Título"; }
-        &:nth-of-type(3):before { content: "Precio"; }
-        &:nth-of-type(4):before { content: "Disponible"; }
-        &:nth-of-type(5):before { content: "Acciones"; }
       }
     }
   }
