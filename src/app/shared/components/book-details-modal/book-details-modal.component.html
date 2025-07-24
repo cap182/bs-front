@@ -1,0 +1,20 @@
+<mat-card class="book-card">
+  <mat-card-header>
+    <mat-card-title>{{ data.title }}</mat-card-title>
+    <mat-card-subtitle>{{ data.category.category_name }}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="data.img" [alt]="data.title" class="book-image">
+  <mat-card-content>
+    <p><strong>Precio:</strong> ${{ data.price | number: '1.2-2' }}</p>
+    <p>
+      <strong>Disponible:</strong>
+      <span [class.in-stock]="data.stock" [class.out-of-stock]="!data.stock">
+        {{ data.stock ? 'Sí' : 'No' }}
+      </span>
+    </p>
+    <p><strong>Rating:</strong> {{ data.rating }} / 5</p>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button (click)="closeDialog()">Cerrar</button>
+  </mat-card-actions>
+</mat-card>

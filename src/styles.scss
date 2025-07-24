@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+/* src/styles.scss */
+@import './styles/base/reset';
+@import './styles/base/typography';
+@import './styles/abstracts/variables';
+@import './styles/abstracts/mixins';
+
+// Estilos globales para la aplicación
+body {
+  font-family: var(--font-family-base);
+  margin: 0;
+  background-color: var(--color-background-body);
+  color: var(--color-text-primary);
+}
+
+.mat-mdc-dialog-container .mat-mdc-dialog-content {
+  padding: 0 !important; // Elimina el padding por defecto del diálogo de Material
+}
+
+.book-details-dialog .mat-mdc-dialog-container {
+  border-radius: var(--border-radius-large); // Aplica el border-radius al diálogo
+  overflow: hidden; // Asegura que el contenido se recorte con el border-radius
+}

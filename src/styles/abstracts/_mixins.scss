@@ -1,0 +1,58 @@
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin button-reset {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin button-style($bg-color, $text-color, $padding: 10px 20px, $border-radius: var(--border-radius-small)) {
+  @include button-reset();
+  background-color: $bg-color;
+  color: $text-color;
+  padding: $padding;
+  border-radius: $border-radius;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Mixin para puntos de quiebre responsivos
+$breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+);
+
+@mixin breakpoint-up($name) {
+  @media (min-width: map-get($breakpoints, $name)) {
+    @content;
+  }
+}
+
+@mixin breakpoint-down($name) {
+  @media (max-width: #{map-get($breakpoints, $name) - 1px}) {
+    @content;
+  }
+}
