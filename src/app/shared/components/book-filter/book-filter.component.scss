@@ -1,0 +1,78 @@
+@import '../../../../styles/abstracts/variables';
+@import '../../../../styles/abstracts/mixins';
+
+.filter-card {
+  background-color: var(--color-background-light);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-small);
+  padding: 20px;
+  margin-bottom: 30px;
+
+  h3 {
+    color: var(--color-primary);
+    margin-bottom: 20px;
+    font-size: var(--font-size-large);
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .price-filter-group {
+    @include breakpoint-up(sm) { // En pantallas pequeñas, apila; en medianas, lado a lado
+      display: flex;
+      gap: 15px;
+    }
+
+    .price-input {
+      flex-grow: 1;
+    }
+
+    .price-type-select {
+      flex-shrink: 0;
+      width: 150px; // Ancho fijo para el select
+      @include breakpoint-down(sm) { // En móviles, ocupa todo el ancho
+        width: 100%;
+      }
+    }
+  }
+
+
+  .filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+
+    button {
+      @include button-style(var(--color-primary), white); // Usa el mixin de botones
+      &[type="button"] { // Estilo para el botón de limpiar
+        background-color: var(--color-secondary);
+        &:hover {
+          background-color: (var(--color-secondary), 10%);
+        }
+      }
+
+      mat-icon {
+        margin-right: 5px;
+      }
+
+      @include breakpoint-down(xs) {
+        width: 100%;
+        margin-bottom: 10px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+    @include breakpoint-down(xs) {
+        flex-direction: column; // Apila los botones en pantallas muy pequeñas
+        align-items: stretch;
+    }
+  }
+}

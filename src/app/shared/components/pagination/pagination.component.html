@@ -1,0 +1,33 @@
+<div class="pagination-container">
+  @if (totalItems > 0) {
+    <div class="pagination-info">
+      Mostrando {{ _startItem() }} - {{ _endItem() }} de {{ _totalItems() }} libros
+    </div>
+  }
+
+  <div class="pagination-controls">
+    <button mat-icon-button (click)="firstPage()" [disabled]="_currentPage() === 1" aria-label="Primera página">
+      <mat-icon>first_page</mat-icon>
+    </button>
+    <button mat-icon-button (click)="previousPage()" [disabled]="_currentPage() === 1" aria-label="Página anterior">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    @for (page of visiblePages(); track page) {
+      <button
+        mat-flat-button
+        [color]="page == _currentPage() ? 'primary' : ''"
+        (click)="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+    }
+
+    <button mat-icon-button (click)="nextPage()" [disabled]="_currentPage() === _totalPages()" aria-label="Página siguiente">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+    <button mat-icon-button (click)="lastPage()" [disabled]="_currentPage() === _totalPages()" aria-label="Última página">
+      <mat-icon>last_page</mat-icon>
+    </button>
+  </div>
+</div>

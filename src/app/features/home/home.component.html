@@ -1,20 +1,30 @@
 <div class="home-container">
   <h1>Lista de Libros</h1>
 
-  <div *ngIf="bookStore.isLoading()" class="loading-spinner">
+  <app-book-filter [categories]="bookStore.categories()" [initialFilter]="bookStore.activeFilter()"
+    (applyFilter)="onApplyBookFilter($event)" (resetFilter)="onResetBookFilter()"></app-book-filter>
+
+  @if (bookStore.isLoading()) {
+  <div class="loading-spinner">
     <mat-spinner></mat-spinner>
     <p>Cargando libros...</p>
   </div>
+  }
 
-  <div *ngIf="bookStore.error()" class="error-message">
+  @if (bookStore.error()) {
+  <div class="error-message">
     <p>Error: {{ bookStore.error() }}</p>
-    <button mat-raised-button color="primary" (click)="bookStore.loadBooks()">Reintentar</button>
+    <button mat-raised-button color="primary"
+      (click)="bookStore.loadBooks(bookStore.activeFilter())">Reintentar</button>
   </div>
+  }
 
-  <div *ngIf="!bookStore.isLoading() && bookStore.books().length > 0" class="table-responsive">
+  @if (!bookStore.isLoading() && bookStore.books().length > 0) {
+  <div class="table-responsive">
     <table class="books-table">
       <thead>
         <tr>
+          <th>#</th>
           <th>Título</th>
           <th>Precio</th>
           <th>Disponible</th>
@@ -22,26 +32,35 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let book of bookStore.books()">
-          <td>{{ book.title }}</td>
-          <td>${{ book.price | number: '1.2-2' }}</td>
-          <td>
+        @for (book of bookStore.books(); track book.book_id; let i = $index) {
+        <tr>
+          <td data-label="#">{{ getBookIndex(i) }}</td>
+          <td data-label="Título">{{ book.title }}</td>
+          <td data-label="Precio">${{ book.price | number: '1.2-2' }}</td>
+          <td data-label="Disponible">
             <span [class.in-stock]="book.stock" [class.out-of-stock]="!book.stock">
               {{ book.stock ? 'Sí' : 'No' }}
             </span>
           </td>
-          <td>
+          <td data-label="Acciones">
             <button mat-icon-button color="primary" (click)="openBookDetails(book)" aria-label="Ver detalles del libro">
               <mat-icon>info</mat-icon>
             </button>
           </td>
         </tr>
+        }
       </tbody>
     </table>
   </div>
 
-  <div *ngIf="!bookStore.isLoading() && !bookStore.error() && bookStore.books().length === 0" class="no-data-message">
-    <p>No se encontraron libros.</p>
-    <button mat-raised-button color="primary" (click)="bookStore.loadBooks()">Cargar Libros</button>
+  <app-pagination [currentPage]="bookStore.currentPage()" [totalPages]="bookStore.totalPages()"
+    [itemsPerPage]="bookStore.limitPerPage()" [totalItems]="bookStore.totalBooksCount()"
+    (pageChange)="onPageChange($event)"></app-pagination>
+
+  } @else if (!bookStore.isLoading() && !bookStore.error() && bookStore.books().length === 0) {
+  <div class="no-data-message">
+    <p>No se encontraron libros que coincidan con los filtros.</p>
+    <button mat-raised-button color="primary" (click)="bookStore.resetFilter()">Cargar Todos los Libros</button>
   </div>
+  }
 </div>
