@@ -1,39 +1,39 @@
 <div class="filter-card">
-    <h3>Filtrar Libros</h3>
     <form (ngSubmit)="onApplyFilter()">
-        <div class="form-group">
-            <mat-form-field appearance="fill">
-                <mat-label>Categoría</mat-label>
-                <mat-select [(ngModel)]="filter.category_id" name="category_id">
-                    <mat-option value="">Todas las categorías</mat-option>
-                    @for (category of categories; track category.category_id) {
-                    <mat-option [value]="category.category_id">
-                        {{ category.category_name | titlecase }}
-                    </mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
+        <div class="filter-fields-container">
+            <div class="form-group">
+                <mat-form-field appearance="fill">
+                    <mat-label>Categoría</mat-label>
+                    <mat-select [(ngModel)]="filter.category_id" name="category_id">
+                        <mat-option value="">Todas las categorías</mat-option>
+                        @for (category of categories; track category.category_id) {
+                        <mat-option [value]="category.category_id">
+                            {{ category.category_name | titlecase }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group price-filter-group">
+                <mat-form-field appearance="fill" class="price-input filter-input">
+                    <mat-label>Precio</mat-label>
+                    <input matInput type="number" [(ngModel)]="filter.price" name="price" placeholder="18.24">
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="price-type-select filter-input">
+                    <mat-label>Tipo de Precio</mat-label>
+                    <mat-select [(ngModel)]="filter.price_filter_type" name="price_filter_type">
+                        <mat-option value="">Selecciona tipo</mat-option>
+                        @for (type of priceFilterTypes; track type.value) {
+                        <mat-option [value]="type.value">
+                            {{ type.viewValue }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
         </div>
-
-        <div class="form-group price-filter-group">
-            <mat-form-field appearance="fill" class="price-input">
-                <mat-label>Precio</mat-label>
-                <input matInput type="number" [(ngModel)]="filter.price" name="price" placeholder="Ej: 25.99">
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="price-type-select">
-                <mat-label>Tipo de Precio</mat-label>
-                <mat-select [(ngModel)]="filter.price_filter_type" name="price_filter_type">
-                    <mat-option value="">Selecciona tipo</mat-option>
-                    @for (type of priceFilterTypes; track type.value) {
-                    <mat-option [value]="type.value">
-                        {{ type.viewValue }}
-                    </mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
-        </div>
-
         <div class="filter-actions">
             <button mat-raised-button color="primary" type="submit">
                 <mat-icon>filter_list</mat-icon> Aplicar Filtro

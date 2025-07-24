@@ -1,8 +1,8 @@
 /* src/styles.scss */
+@use './styles/abstracts/variables' as *;
+@use './styles/abstracts/mixins' as *;
 @import './styles/base/reset';
 @import './styles/base/typography';
-@import './styles/abstracts/variables';
-@import './styles/abstracts/mixins';
 
 // Estilos globales para la aplicación
 body {

@@ -4,9 +4,7 @@
 
 .home-container {
   padding: 20px;
-  background-color: var(--color-background-light);
-  border-radius: 8px;
-  box-shadow: var(--shadow-small);
+
 
   h1 {
     color: var(--color-primary);
@@ -97,7 +95,6 @@
 
     // Estilos específicos para la columna #
     th:first-child, td:first-child {
-      width: 50px; // Ancho fijo para el número
       text-align: center;
       @include breakpoint-down(md) {
         text-align: right; // Alineado a la derecha en móviles

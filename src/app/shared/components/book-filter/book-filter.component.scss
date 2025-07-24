@@ -1,5 +1,6 @@
-@import '../../../../styles/abstracts/variables';
-@import '../../../../styles/abstracts/mixins';
+/* src/app/shared/components/book-filter/book-filter.component.scss */
+@use '../../../../styles/abstracts/variables' as *;
+@use '../../../../styles/abstracts/mixins' as *;
 
 .filter-card {
   background-color: var(--color-background-light);
@@ -15,18 +16,69 @@
     text-align: center;
   }
 
+  form {
+    // --- CAMBIOS CLAVE AQUÍ: Nuevo contenedor para campos de filtro ---
+    display: flex;       // Convertimos el formulario en un contenedor flex
+    flex-direction: column; // Por defecto, apila los elementos verticalmente (para móviles primero)
+    align-items: center; // Centra horizontalmente los elementos (campos y contenedor de botones)
+
+    @include breakpoint-up(md) {
+      // En pantallas medianas y grandes, los campos irán en una fila
+      flex-direction: column; // Sigue siendo columna, pero los campos internos serán flex
+      align-items: center; // Mantiene el formulario centrado
+    }
+  }
+
+  .filter-fields-container { // <--- NUEVO CONTENEDOR PARA LOS CAMPOS DEL FILTRO
+    display: flex;
+    flex-direction: column; // Por defecto apilados
+    width: 100%; // Ocupa todo el ancho disponible del formulario
+    max-width: 900px; // Opcional: limitar el ancho máximo para que no se estiren demasiado en pantallas muy grandes
+
+    @include breakpoint-up(md) {
+      flex-direction: row; // En pantallas medianas y grandes, se ponen en fila
+      gap: 15px; // Espacio entre los campos
+      align-items: flex-end; // Alinea los elementos al final
+      margin-bottom: 20px; // Espacio entre los campos y los botones
+    }
+
+    @include breakpoint-down(sm) {
+      margin-bottom: 15px; // Espacio entre el último campo y los botones en móviles
+    }
+  }
+
   .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px; // Espacio entre campos individuales en vista de columna
+
+    @include breakpoint-up(md) {
+      margin-bottom: 0; // No se necesita margen inferior cuando están en una fila
+      flex-basis: 33.33%; // Cada campo ocupa 1/3 del espacio
+      flex-grow: 1; // Permite que crezcan para llenar el espacio disponible
+    }
 
     mat-form-field {
       width: 100%;
+      .mat-mdc-text-field-wrapper {
+        height: 50px;
+        .mat-mdc-form-field-flex {
+            height: 100%;
+        }
+      }
+      .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+      }
     }
   }
 
   .price-filter-group {
-    @include breakpoint-up(sm) { // En pantallas pequeñas, apila; en medianas, lado a lado
+    @include breakpoint-up(sm) {
       display: flex;
-      gap: 15px;
+      gap: 10px;
+    }
+
+    @include breakpoint-up(md) {
+      flex-basis: 33.33%;
+      flex-grow: 1;
     }
 
     .price-input {
@@ -35,44 +87,56 @@
 
     .price-type-select {
       flex-shrink: 0;
-      width: 150px; // Ancho fijo para el select
-      @include breakpoint-down(sm) { // En móviles, ocupa todo el ancho
+      width: 130px;
+      @include breakpoint-down(sm) {
         width: 100%;
       }
     }
   }
 
-
+  // --- CAMBIOS CLAVE AQUÍ: Contenedor para los botones ---
   .filter-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center; // Centra los botones horizontalmente
     gap: 10px;
-    margin-top: 25px;
+    // margin-top: 20px; // Eliminado, el margen viene del filter-fields-container si es fila, o de form-group en móvil
+    width: 100%; // Ocupa todo el ancho
+    max-width: 400px; // Opcional: limitar el ancho máximo de los botones para que no se estiren demasiado
+
+    @include breakpoint-down(xs) {
+      flex-direction: column;
+      align-items: stretch; // Estira los botones para que ocupen todo el ancho
+    }
 
     button {
-      @include button-style(var(--color-primary), white); // Usa el mixin de botones
-      &[type="button"] { // Estilo para el botón de limpiar
+      @include button-style(var(--color-primary), white);
+      padding: 0 15px;
+      height: 40px;
+      font-size: var(--font-size-base);
+      flex-grow: 1; // Permite que los botones crezcan y compartan el espacio
+
+      &[type="button"] {
         background-color: var(--color-secondary);
         &:hover {
-          background-color: (var(--color-secondary), 10%);
+          background-color: var(--color-secondary-dark);
         }
       }
 
       mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
         margin-right: 5px;
       }
 
       @include breakpoint-down(xs) {
-        width: 100%;
         margin-bottom: 10px;
         &:last-child {
           margin-bottom: 0;
         }
+        font-size: var(--font-size-small);
+        padding: 0 10px;
       }
-    }
-    @include breakpoint-down(xs) {
-        flex-direction: column; // Apila los botones en pantallas muy pequeñas
-        align-items: stretch;
     }
   }
 }

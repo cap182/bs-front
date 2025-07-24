@@ -1,6 +1,4 @@
 <div class="home-container">
-  <h1>Lista de Libros</h1>
-
   <app-book-filter [categories]="bookStore.categories()" [initialFilter]="bookStore.activeFilter()"
     (applyFilter)="onApplyBookFilter($event)" (resetFilter)="onResetBookFilter()"></app-book-filter>
 
