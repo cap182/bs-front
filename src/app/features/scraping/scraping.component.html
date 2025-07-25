@@ -73,19 +73,19 @@
         <table class="app-data-table">
             <thead>
                 <tr>
+                    <th>Libros</th>
                     <th>Página</th>
                     <th>Categoría</th>
                     <th>Fecha</th>
-                    <th>Libros</th>
                 </tr>
             </thead>
             <tbody>
                 @for (log of scrapingLogs$ | async; track log.scraped_at) {
                 <tr>
+                    <td data-label="Libros">{{ log.number_of_books }}</td>
                     <td data-label="Página">{{ displayNA(log.page) }}</td>
                     <td data-label="Categoría">{{ displayNA(log.category?.category_name | titlecase) }}</td>
                     <td data-label="Fecha">{{ log.scraped_at | date:'medium' }}</td>
-                    <td data-label="Libros">{{ log.number_of_books }}</td>
                 </tr>
                 }
             </tbody>
