@@ -18,9 +18,25 @@
         <mat-card-content>
             <div class="scraping-form-section">
                 <h3>Iniciar Nuevo Scraping</h3>
+                <p>Aquí puedes realizar scraping de diferentes maneras:</p>
+                <ul>
+                    <li>
+                        <strong>Página específica:</strong> Esta opción habilita un campo para que ingreses manualmente
+                        la página que deseas scrapear. Con este método, se extrae información tanto de la
+                        página como de cada libro listado en ella, incluyendo la categoría de cada libro.
+                    </li>
+                    <li>
+                        <strong>Categoría específica:</strong> Al elegir esta opción, se realizará scraping de todas
+                        las páginas de esa categoria pero no de cada libro, ya que la categoría de los libros se considera conocida.
+                    </li>
+                    <li>
+                        <strong>Scrapear siguiente:</strong> Finalmente, puedes optar por esta opción para scrapear la
+                        siguiente página que aún no haya sido procesada.
+                    </li>
+                </ul>
+
                 <form [formGroup]="scrapingForm" (ngSubmit)="submitScrape()">
-                    <mat-radio-group aria-label="Seleccionar opción de scraping" formControlName="scrapeOption"
-                        >
+                    <mat-radio-group aria-label="Seleccionar opción de scraping" formControlName="scrapeOption">
                         <mat-radio-button value="page">Página específica</mat-radio-button>
                         <mat-radio-button value="category">Categoría específica</mat-radio-button>
                         <mat-radio-button value="none">Scrapear siguiente</mat-radio-button>
@@ -92,5 +108,5 @@
         </table>
     </div>
 
-}
+    }
 </div>
