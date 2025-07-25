@@ -6,18 +6,15 @@
     </div>
     } @else if (error$ | async) {<div class="error-message-container">
         <p class="error-message">{{ error$ | async }}</p>
-        
+
     </div>
     } @else if ((scrapingLogs$ | async)?.length === 0) {
     <div class="no-data-message">
         <p>No se encontraron registros de scraping.</p>
-        
+
     </div>
     } @else {
     <mat-card class="scraping-card">
-        <mat-card-header>
-            <mat-card-title>Historial de Scraping</mat-card-title>
-        </mat-card-header>
         <mat-card-content>
             <div class="scraping-form-section">
                 <h3>Iniciar Nuevo Scraping</h3>
@@ -69,31 +66,31 @@
                 </form>
             </div>
 
-            <hr class="section-divider">
-            
-            <div class="table-responsive">
-                <table class="app-data-table">
-                    <thead>
-                        <tr>
-                            <th>Página</th>
-                            <th>Categoría</th>
-                            <th>Fecha</th>
-                            <th>Libros</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (log of scrapingLogs$ | async; track log.scraped_at) {
-                        <tr>
-                            <td data-label="Página">{{ displayNA(log.page) }}</td>
-                            <td data-label="Categoría">{{ displayNA(log.category?.category_name | titlecase) }}</td>
-                            <td data-label="Fecha">{{ log.scraped_at | date:'medium' }}</td>
-                            <td data-label="Libros">{{ log.number_of_books }}</td>
-                        </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
         </mat-card-content>
     </mat-card>
-    }
+
+    <div class="table-responsive">
+        <table class="app-data-table">
+            <thead>
+                <tr>
+                    <th>Página</th>
+                    <th>Categoría</th>
+                    <th>Fecha</th>
+                    <th>Libros</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (log of scrapingLogs$ | async; track log.scraped_at) {
+                <tr>
+                    <td data-label="Página">{{ displayNA(log.page) }}</td>
+                    <td data-label="Categoría">{{ displayNA(log.category?.category_name | titlecase) }}</td>
+                    <td data-label="Fecha">{{ log.scraped_at | date:'medium' }}</td>
+                    <td data-label="Libros">{{ log.number_of_books }}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+}
 </div>
