@@ -1,3 +1,4 @@
+<!-- src/app/features/home/home.component.html -->
 <div class="home-container">
   <app-book-filter [categories]="bookStore.categories()" [initialFilter]="bookStore.activeFilter()"
     (applyFilter)="onApplyBookFilter($event)" (resetFilter)="onResetBookFilter()"></app-book-filter>
@@ -19,7 +20,7 @@
 
   @if (!bookStore.isLoading() && !bookStore.isDeleting() && bookStore.books().length > 0) {
   <div class="table-responsive">
-    <table class="books-table">
+    <table class="app-data-table"> <!-- <-- ¡Clase de tabla actualizada! -->
       <thead>
         <tr>
           <th>#</th>
@@ -34,7 +35,7 @@
         <tr>
           <td data-label="#">{{ getBookIndex(i) }}</td>
           <td data-label="Título">{{ book.title }}</td>
-          <td data-label="Precio">{{ book.price | currency:'GBP':'symbol':'1.2-2' }}</td> <!-- Usando CurrencyPipe -->
+          <td data-label="Precio">{{ book.price | currency:'GBP':'symbol':'1.2-2' }}</td>
           <td data-label="Disponible">
             <span [class.in-stock]="book.stock" [class.out-of-stock]="!book.stock">
               {{ book.stock ? 'Sí' : 'No' }}
