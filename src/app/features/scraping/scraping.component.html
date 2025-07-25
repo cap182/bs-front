@@ -1,51 +1,99 @@
 <div class="scraping-container">
+    @if (isLoading$ | async) {
+    <div class="loading-spinner">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Cargando historial de scraping...</p>
+    </div>
+    } @else if (error$ | async) {<div class="error-message-container">
+        <p class="error-message">{{ error$ | async }}</p>
+        
+    </div>
+    } @else if ((scrapingLogs$ | async)?.length === 0) {
+    <div class="no-data-message">
+        <p>No se encontraron registros de scraping.</p>
+        
+    </div>
+    } @else {
+    <mat-card class="scraping-card">
+        <mat-card-header>
+            <mat-card-title>Historial de Scraping</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="scraping-form-section">
+                <h3>Iniciar Nuevo Scraping</h3>
+                <form [formGroup]="scrapingForm" (ngSubmit)="submitScrape()">
+                    <mat-radio-group aria-label="Seleccionar opción de scraping" formControlName="scrapeOption"
+                        class="radio-group">
+                        <mat-radio-button value="page">Página específica</mat-radio-button>
+                        <mat-radio-button value="category">Categoría específica</mat-radio-button>
+                        <mat-radio-button value="none">Ninguna (Scrapear todo)</mat-radio-button>
+                    </mat-radio-group>
 
-            @if (isLoading$ | async) {
-            <div class="loading-spinner-container">
-                <mat-spinner diameter="50"></mat-spinner>
-                <p>Cargando historial de scraping...</p>
+                    @if (scrapingForm.get('scrapeOption')?.value === 'page') {
+                    <mat-form-field appearance="outline" class="full-width-input">
+                        <mat-label>Número de Página</mat-label>
+                        <input matInput type="number" formControlName="pageNumber" placeholder="Ej: 3">
+                        @if (scrapingForm.get('pageNumber')?.hasError('required') &&
+                        scrapingForm.get('pageNumber')?.touched) {
+                        <mat-error>El número de página es obligatorio.</mat-error>
+                        } @else if (scrapingForm.get('pageNumber')?.hasError('min') &&
+                        scrapingForm.get('pageNumber')?.touched) {
+                        <mat-error>La página debe ser un número positivo.</mat-error>
+                        }
+                    </mat-form-field>
+                    }
+
+                    @if (scrapingForm.get('scrapeOption')?.value === 'category') {
+                    <mat-form-field appearance="outline" class="full-width-input">
+                        <mat-label>Seleccionar Categoría</mat-label>
+                        <mat-select formControlName="categoryId">
+                            @for (category of categories$ | async; track category.category_id) {
+                            <mat-option [value]="category.category_id">{{ category.category_name | titlecase
+                                }}</mat-option>
+                            }
+                        </mat-select>
+                        @if (scrapingForm.get('categoryId')?.hasError('required') &&
+                        scrapingForm.get('categoryId')?.touched) {
+                        <mat-error>La categoría es obligatoria.</mat-error>
+                        }
+                    </mat-form-field>
+                    }
+
+                    <div class="form-actions">
+                        <button mat-raised-button color="accent" type="submit"
+                            [disabled]="scrapingForm.invalid || (isLoadingScrape$ | async)">
+                            <mat-spinner *ngIf="isLoadingScrape$ | async" diameter="20"></mat-spinner>
+                            {{ (isLoadingScrape$ | async) ? 'Enviando...' : 'Iniciar Scraping' }}
+                        </button>
+                    </div>
+                </form>
             </div>
-            } @else if (error$ | async) {<div class="error-message-container">
-                <p class="error-message">{{ error$ | async }}</p>
-                <button mat-raised-button color="primary" (click)="refreshLogs()">
-                    <mat-icon>refresh</mat-icon> Reintentar
-                </button>
-            </div>
-            } @else if ((scrapingLogs$ | async)?.length === 0) {
-            <div class="no-data-message-container">
-                <p class="no-data-message">No se encontraron registros de scraping.</p>
-                <button mat-raised-button color="primary" (click)="refreshLogs()">
-                    <mat-icon>refresh</mat-icon> Recargar
-                </button>
-            </div>
-            } @else {
-            <div class="table-actions">
-                <button mat-flat-button color="primary" (click)="refreshLogs()">
-                    <mat-icon>refresh</mat-icon> Actualizar
-                </button>
-            </div>
+
+            <hr class="section-divider">
+            
             <div class="table-responsive">
                 <table class="app-data-table">
                     <thead>
                         <tr>
-                            <th>Libros</th>
                             <th>Página</th>
                             <th>Categoría</th>
                             <th>Fecha</th>
+                            <th>Libros</th>
                         </tr>
                     </thead>
                     <tbody>
                         @for (log of scrapingLogs$ | async; track log.scraped_at) {
                         <tr>
-                            <td data-label="Libros">{{ log.number_of_books }}</td>
                             <td data-label="Página">{{ displayNA(log.page) }}</td>
                             <td data-label="Categoría">{{ displayNA(log.category?.category_name | titlecase) }}</td>
                             <td data-label="Fecha">{{ log.scraped_at | date:'medium' }}</td>
+                            <td data-label="Libros">{{ log.number_of_books }}</td>
                         </tr>
                         }
                     </tbody>
                 </table>
             </div>
-            }
-
+        </mat-card-content>
+    </mat-card>
+    }
 </div>

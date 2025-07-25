@@ -1,8 +1,6 @@
-// src/app/core/stores/scraping.store.ts
-
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, finalize, tap, map, startWith } from 'rxjs/operators'; // <-- Añade 'startWith' aquí
+import { catchError, finalize, tap, map, startWith } from 'rxjs/operators';
 import { ScrapingLog } from '../../shared/models/scraping-log.model';
 import { ScrapingService } from '../services/scraping.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -28,15 +26,15 @@ export class ScrapingStore {
 
   public readonly scrapingLogs$: Observable<ScrapingLog[]> = this._state.pipe(
     map(state => state.logs),
-    startWith(initialState.logs) // <-- ¡Asegura que siempre empiece con un array vacío!
+    startWith(initialState.logs)
   );
   public readonly isLoading$: Observable<boolean> = this._state.pipe(
     map(state => state.isLoading),
-    startWith(initialState.isLoading) // Opcional, pero bueno para consistencia
+    startWith(initialState.isLoading)
   );
   public readonly error$: Observable<string | null> = this._state.pipe(
     map(state => state.error),
-    startWith(initialState.error) // Opcional, pero bueno para consistencia
+    startWith(initialState.error)
   );
 
   constructor(
@@ -70,7 +68,6 @@ export class ScrapingStore {
         return throwError(() => new Error(errorMessage));
       }),
       finalize(() => {
-        // isLoading ya se maneja en tap/catchError
       })
     ).subscribe();
   }

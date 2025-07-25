@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs'; // catchError y of pueden ser manejados por el Store ahora, pero está bien mantenerlos aquí si se usan localmente.
+import { Observable } from 'rxjs';
 import { ScrapingLog } from '../../shared/models/scraping-log.model';
 import { environment } from '../../../environments/environment';
 
@@ -10,16 +10,22 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class ScrapingService {
-  private baseUrl = `${environment.apiUrl}`; // Aseguramos que la base URL sea solo el apiUrl del entorno
+  private baseUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) { }
 
   getScrapingLogs(): Observable<ScrapingLog[]> {
-    const requestUrl = `${this.baseUrl}/scraping/logs`; // Construimos la ruta completa aquí
-    return this.http.get<ScrapingLog[]>(requestUrl).pipe(
-      // El catchError principal se hará en el store para manejar el estado global de error
-      // Pero si quisieras un manejo de error específico de servicio antes de que llegue al store, sería aquí.
-      // catchError(error => { /* Manejo de error específico del servicio */ return throwError(() => error); })
-    );
+    const requestUrl = `${this.baseUrl}/scraping/logs`;
+    return this.http.get<ScrapingLog[]>(requestUrl);
+  }
+
+  /**
+   * Envía una solicitud de scraping al backend.
+   * @param body Puede contener { page: number } o { category: string } o ser vacío {}.
+   * @returns Observable de cualquier tipo, ya que la respuesta podría ser un simple mensaje de éxito.
+   */
+  postScrapingRequest(body: { page?: number; category?: string } | {}): Observable<any> {
+    const requestUrl = `${this.baseUrl}/scraping/books`; // Endpoint para iniciar scraping
+    return this.http.post<any>(requestUrl, body);
   }
 }

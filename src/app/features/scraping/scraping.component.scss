@@ -1,19 +1,15 @@
-/* src/app/features/scraping/scraping.component.scss */
 @use '../../../styles/abstracts/variables' as *;
 @use '../../../styles/abstracts/mixins' as *;
-@use '../../../styles/components/table' as *; // <-- ¡Importa el nuevo parcial de tabla!
-
-
+@use '../../../styles/components/table' as *;
 
 .scraping-container {
   padding: 20px;
-
-  h1 {
-    color: var(--color-primary);
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: var(--font-size-heading);
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: calc(100vh - var(--header-height, 64px));
+  box-sizing: border-box;
 
   .loading-spinner,
   .error-message,
@@ -22,6 +18,7 @@
     padding: 20px;
     font-size: var(--font-size-medium);
     color: var(--color-text-secondary);
+    width: 100%;
 
     mat-spinner {
       margin: 0 auto 15px;
@@ -37,8 +34,106 @@
     font-weight: bold;
   }
 
-  .table-responsive {
-    overflow-x: auto;
-  }
+  .scraping-card {
+    width: 100%;
+    max-width: 900px;
+    box-shadow: var(--shadow-medium);
+    border-radius: var(--border-radius-large);
+    background-color: var(--color-background-light);
+    margin-top: 20px;
 
+    mat-card-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--color-border);
+      mat-card-title {
+        font-size: var(--font-size-xlarge);
+        color: var(--color-primary);
+        text-align: center;
+        width: 100%;
+      }
+    }
+
+    mat-card-content {
+      padding: 16px;
+      overflow-x: auto;
+
+      .scraping-form-section {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+
+        h3 {
+          font-size: var(--font-size-large);
+          color: var(--color-primary-dark);
+          margin-bottom: 15px;
+          text-align: center;
+        }
+
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 15px; // Espacio entre elementos del formulario
+
+          .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px; // Espacio entre radios y el input
+          }
+
+          .full-width-input {
+            width: 100%;
+          }
+
+          .form-actions {
+            display: flex;
+            justify-content: flex-end; // Alinea el botón a la derecha
+            margin-top: 10px;
+
+            button {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              padding: 0 20px;
+              height: 40px;
+              font-size: var(--font-size-base);
+              mat-spinner {
+                margin: 0; // Ajusta el margen del spinner dentro del botón
+              }
+            }
+          }
+        }
+      }
+
+      .section-divider {
+        border: none;
+        border-top: 1px solid var(--color-border);
+        margin: 20px 0;
+      }
+
+      .table-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 15px;
+
+        button {
+          background-color: var(--color-secondary);
+          color: white;
+          padding: 0 15px;
+          height: 36px;
+          font-size: var(--font-size-base);
+          border-radius: var(--border-radius-small);
+          mat-icon {
+            margin-right: 5px;
+          }
+          &:hover {
+            background-color: var(--color-secondary-dark);
+          }
+        }
+      }
+
+      .table-responsive {
+        overflow-x: auto;
+      }
+    }
+  }
 }
