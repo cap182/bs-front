@@ -1,0 +1,136 @@
+// src/styles/components/_table.scss
+// Este archivo contendrá los estilos reutilizables para las tablas de la aplicación.
+
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+
+.app-data-table { // Renombramos la clase para que sea más genérica
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; // Espacio vertical entre filas
+  margin-top: 20px; // Margen superior para la tabla
+
+  th,
+  td {
+    border-bottom: 1px solid var(--color-border); // Solo borde inferior
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: middle;
+    background-color: var(--color-background-light);
+  }
+
+  th {
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: var(--font-size-small);
+    border-bottom: 2px solid var(--color-primary-dark);
+  }
+
+  tbody tr {
+    background-color: var(--color-background-light);
+    border-radius: var(--border-radius-small);
+    overflow: hidden;
+    box-shadow: var(--shadow-extra-small);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    &:hover {
+      box-shadow: var(--shadow-small);
+      transform: translateY(-2px);
+    }
+  }
+
+  td {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
+
+    .in-stock {
+      color: var(--color-success);
+      font-weight: bold;
+    }
+
+    .out-of-stock {
+      color: var(--color-error);
+      font-weight: bold;
+    }
+
+    button {
+      @include button-reset(); // Asegúrate de que este mixin esté disponible globalmente o importado
+      color: var(--color-primary);
+      transition: color 0.2s ease-in-out;
+
+      &:hover {
+        color: var(--color-primary-dark);
+      }
+    }
+  }
+
+  // Estilos para la primera y última columna (bordes redondeados del encabezado)
+  th:first-child,
+  td:first-child {
+    text-align: center; // Centrado para el #
+    @include breakpoint-up(md) {
+      border-top-left-radius: var(--border-radius-small);
+    }
+    @include breakpoint-down(md) {
+      background-color: var(--color-primary); // Fondo para # en móvil
+      color: white;
+      text-align: right;
+    }
+  }
+  th:last-child,
+  td:last-child {
+    @include breakpoint-up(md) {
+      border-top-right-radius: var(--border-radius-small);
+    }
+  }
+
+  // --- Estilos Responsivos para Móvil (Card-like rows) ---
+  @include breakpoint-down(md) {
+    font-size: var(--font-size-small);
+    border-spacing: 0; // Eliminar espaciado entre celdas en móvil si no quieres bordes
+
+    th,
+    td {
+      padding: 8px 10px;
+    }
+
+    thead {
+      display: none; // Ocultar el encabezado de la tabla en móvil
+    }
+
+    tr {
+      display: block; // Cada fila se convierte en un bloque (como una tarjeta)
+      margin-bottom: 15px; // Separación entre "tarjetas" de filas
+      border: 1px solid var(--color-border); // Borde para la "tarjeta" de la fila
+      border-radius: 5px;
+      background-color: var(--color-background-light);
+      box-shadow: var(--shadow-extra-small);
+    }
+
+    td {
+      display: block; // Cada celda se convierte en un bloque
+      text-align: right;
+      padding-left: 50%; // Espacio para la etiqueta :before
+      position: relative;
+      border-bottom: 1px solid var(--color-border); // Borde inferior para cada "campo" en móvil
+
+      &:last-child {
+        border-bottom: none; // No borde inferior en la última celda de la "tarjeta"
+      }
+
+      &:before {
+        content: attr(data-label); // Usa el atributo data-label para la etiqueta
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: var(--color-primary);
+      }
+    }
+  }
+}

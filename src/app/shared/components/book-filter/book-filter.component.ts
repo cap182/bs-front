@@ -1,5 +1,4 @@
-// src/app/shared/components/book-filter/book-filter.component.ts
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core'; // Eliminamos ChangeDetectionStrategy, ChangeDetectorRef
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Category } from '../../models/category.model';
 import { BookFilter } from '../../../core/stores/book.store';
@@ -8,7 +7,7 @@ import {
   FormGroup,
   FormControl,
   ReactiveFormsModule,
-} from '@angular/forms'; // Eliminamos Validators, ValidatorFn, AbstractControl, ValidationErrors
+} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -16,8 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { priceFilterValidator } from '../../validators/custom-validators'; // <-- Nueva importación del validador
-
+import { priceFilterValidator } from '../../validators/custom-validators';
 @Component({
   selector: 'app-book-filter',
   standalone: true,
@@ -34,7 +32,7 @@ import { priceFilterValidator } from '../../validators/custom-validators'; // <-
   ],
   templateUrl: './book-filter.component.html',
   styleUrls: ['./book-filter.component.scss'],
-  // Eliminamos changeDetection: ChangeDetectionStrategy.OnPush, volviendo a Default
+
 })
 export class BookFilterComponent implements OnInit {
   @Input() categories: Category[] | null = [];

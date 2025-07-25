@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 import { BooksApiResponse } from '../../shared/models/book.model';
 import { Category } from '../../shared/models/category.model';
 import { BookFilter } from '../stores/book.store';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
-  private apiUrl = 'http://localhost:3000';
+  // private apiUrl = 'http://localhost:3000';
+  private apiUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) {}
 
