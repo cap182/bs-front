@@ -1,11 +1,11 @@
 <div class="filter-card">
-    <form (ngSubmit)="onApplyFilter()">
+    <h3>Filtrar Libros</h3>
+    <form [formGroup]="filterForm" (ngSubmit)="onApplyFilter()">
         <div class="filter-fields-container">
             <div class="form-group">
                 <mat-form-field appearance="fill">
                     <mat-label>Categoría</mat-label>
-                    <mat-select [(ngModel)]="filter.category_id" name="category_id">
-                        <mat-option value="">Todas las categorías</mat-option>
+                    <mat-select formControlName="category_id"> <mat-option value="">Todas las categorías</mat-option>
                         @for (category of categories; track category.category_id) {
                         <mat-option [value]="category.category_id">
                             {{ category.category_name | titlecase }}
@@ -16,14 +16,17 @@
             </div>
 
             <div class="form-group price-filter-group">
-                <mat-form-field appearance="fill" class="price-input filter-input">
+                <mat-form-field appearance="fill" class="price-input">
                     <mat-label>Precio</mat-label>
-                    <input matInput type="number" [(ngModel)]="filter.price" name="price" placeholder="18.24">
+                    <input matInput type="number" formControlName="price" placeholder="18.24">
+                    @if (priceControl?.errors?.['priceRequired'] && (priceControl?.dirty || priceControl?.touched)) {
+                    <mat-error>El precio es requerido si se selecciona un tipo de precio.</mat-error>
+                    }
                 </mat-form-field>
 
-                <mat-form-field appearance="fill" class="price-type-select filter-input">
+                <mat-form-field appearance="fill" class="price-type-select">
                     <mat-label>Tipo de Precio</mat-label>
-                    <mat-select [(ngModel)]="filter.price_filter_type" name="price_filter_type">
+                    <mat-select formControlName="price_filter_type">
                         <mat-option value="">Selecciona tipo</mat-option>
                         @for (type of priceFilterTypes; track type.value) {
                         <mat-option [value]="type.value">
@@ -31,11 +34,15 @@
                         </mat-option>
                         }
                     </mat-select>
+                    @if (priceTypeControl?.errors?.['priceTypeRequired'] && (priceTypeControl?.dirty ||
+                    priceTypeControl?.touched)) {
+                    <mat-error>El tipo de precio es requerido si se ingresa un precio.</mat-error>
+                    }
                 </mat-form-field>
             </div>
         </div>
         <div class="filter-actions">
-            <button mat-raised-button color="primary" type="submit">
+            <button mat-raised-button color="primary" type="submit" [disabled]="filterForm.invalid">
                 <mat-icon>filter_list</mat-icon> Aplicar Filtro
             </button>
             <button mat-button type="button" (click)="onResetFilter()">

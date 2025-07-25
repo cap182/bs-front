@@ -1,10 +1,8 @@
-/* src/styles.scss */
 @use './styles/abstracts/variables' as *;
 @use './styles/abstracts/mixins' as *;
 @import './styles/base/reset';
 @import './styles/base/typography';
 
-// Estilos globales para la aplicación
 body {
   font-family: var(--font-family-base);
   margin: 0;
@@ -13,10 +11,20 @@ body {
 }
 
 .mat-mdc-dialog-container .mat-mdc-dialog-content {
-  padding: 0 !important; // Elimina el padding por defecto del diálogo de Material
+  padding: 0 !important;
 }
 
 .book-details-dialog .mat-mdc-dialog-container {
-  border-radius: var(--border-radius-large); // Aplica el border-radius al diálogo
-  overflow: hidden; // Asegura que el contenido se recorte con el border-radius
+  border-radius: var(--border-radius-large);
+  overflow: hidden; 
+}
+
+button {
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #cccccc !important; 
+    color: #666666 !important;
+    pointer-events: none;
+  }
 }
