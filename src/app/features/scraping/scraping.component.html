@@ -8,12 +8,7 @@
         <p class="error-message">{{ error$ | async }}</p>
 
     </div>
-    } @else if ((scrapingLogs$ | async)?.length === 0) {
-    <div class="no-data-message">
-        <p>No se encontraron registros de scraping.</p>
-
-    </div>
-    } @else {
+    } @else{
     <mat-card class="scraping-card">
         <mat-card-content>
             <div class="scraping-form-section">
@@ -27,7 +22,8 @@
                     </li>
                     <li>
                         <strong>Categoría específica:</strong> Al elegir esta opción, se realizará scraping de todas
-                        las páginas de esa categoria pero no de cada libro, ya que la categoría de los libros se considera conocida.
+                        las páginas de esa categoria pero no de cada libro, ya que la categoría de los libros se
+                        considera conocida.
                     </li>
                     <li>
                         <strong>Scrapear siguiente:</strong> Finalmente, puedes optar por esta opción para scrapear la
@@ -84,6 +80,13 @@
 
         </mat-card-content>
     </mat-card>
+    @if ((scrapingLogs$ | async)?.length === 0) {
+    <div class="no-data-message">
+        <p>No se encontraron registros de scraping.</p>
+
+    </div>
+    } @else {
+
 
     <div class="table-responsive">
         <table class="app-data-table">
@@ -109,4 +112,6 @@
     </div>
 
     }
+    }
+
 </div>
