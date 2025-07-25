@@ -20,14 +20,14 @@
                 <h3>Iniciar Nuevo Scraping</h3>
                 <form [formGroup]="scrapingForm" (ngSubmit)="submitScrape()">
                     <mat-radio-group aria-label="Seleccionar opción de scraping" formControlName="scrapeOption"
-                        class="radio-group">
+                        >
                         <mat-radio-button value="page">Página específica</mat-radio-button>
                         <mat-radio-button value="category">Categoría específica</mat-radio-button>
-                        <mat-radio-button value="none">Ninguna (Scrapear todo)</mat-radio-button>
+                        <mat-radio-button value="none">Scrapear siguiente</mat-radio-button>
                     </mat-radio-group>
 
                     @if (scrapingForm.get('scrapeOption')?.value === 'page') {
-                    <mat-form-field appearance="outline" class="full-width-input">
+                    <mat-form-field appearance="outline">
                         <mat-label>Número de Página</mat-label>
                         <input matInput type="number" formControlName="pageNumber" placeholder="Ej: 3">
                         @if (scrapingForm.get('pageNumber')?.hasError('required') &&
@@ -41,7 +41,7 @@
                     }
 
                     @if (scrapingForm.get('scrapeOption')?.value === 'category') {
-                    <mat-form-field appearance="outline" class="full-width-input">
+                    <mat-form-field appearance="outline">
                         <mat-label>Seleccionar Categoría</mat-label>
                         <mat-select formControlName="categoryId">
                             @for (category of categories$ | async; track category.category_id) {
